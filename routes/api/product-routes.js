@@ -6,11 +6,25 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // get all products
 router.get('/', (req, res) => {
   // find all products
+  Product.findAll({
+    attributes: { exclude: ['password'] }
+  })
   // be sure to include its associated Category and Tag data
+  .then(dbProductData => res.json(dbProductData))
+  .catch(err =>{
+    console.log(err);
+  });
 });
 
 // get one product
 router.get('/:id', (req, res) => {
+  Product.findOne({
+    attributes: { exclude: ['password'] },
+    where: {
+      id: req.params.id
+    },
+    include: []
+  })
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
 });
